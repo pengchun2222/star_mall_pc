@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ququ.star.basic.common.exception.BasicExceptionHandler,\
+  com.ququ.star.basic.common.handler.SecurityHandlerInterceptor,\
+  com.ququ.star.basic.common.filter.AuthenticationFilter

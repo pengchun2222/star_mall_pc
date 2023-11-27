@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "oauth2.cloud.sys.parameter",
+      "type": "com.ququ.star.common.config.SysParameterConfig",
+      "sourceType": "com.ququ.star.common.config.SysParameterConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "oauth2.cloud.sys.parameter.ignore-urls",
+      "type": "java.util.List<java.lang.String>",
+      "description": "白名单",
+      "sourceType": "com.ququ.star.common.config.SysParameterConfig"
+    }
+  ],
+  "hints": []
+}
