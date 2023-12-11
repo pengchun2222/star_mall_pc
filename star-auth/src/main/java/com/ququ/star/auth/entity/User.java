@@ -2,6 +2,8 @@ package com.ququ.star.auth.entity;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 
 /**
  * @Author: 彭淳
@@ -25,10 +27,10 @@ public class User {
     private String email;
     
     // 创建时间
-    private Long createTime;
+    private Timestamp createTime;
     
     // 修改时间
-    private Long updateTime;
+    private Timestamp updateTime;
     
     // 用户状态
     private Integer status;

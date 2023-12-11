@@ -1,0 +1,23 @@
+server:
+  port: 13000
+spring:
+  application:
+    name: @artifactId@
+  cloud:
+    nacos:
+      discovery:
+        namespace: da001164-4d22-4012-8edf-d6792a90e774
+        server-addr: 192.168.133.140:8848
+        username: nacos
+        password: nacos
+      config:
+        namespace: da001164-4d22-4012-8edf-d6792a90e774
+        file-extension: yml
+        server-addr: 192.168.133.140:8848
+        username: nacos
+        password: nacos
+        shared-configs: application.${spring.cloud.nacos.config.file-extension}
+#        shared-configs: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+logging:
+  level:
+    org.springframework.security: DEBUG

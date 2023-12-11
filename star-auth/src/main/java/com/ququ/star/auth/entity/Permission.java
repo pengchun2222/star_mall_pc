@@ -2,6 +2,8 @@ package com.ququ.star.auth.entity;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 /**
  * @Author: 彭淳
  * @Date: 2023/11/20 19:23
@@ -22,10 +24,10 @@ public class Permission {
     private String description;
     
     // 创建时间
-    private Long createTime;
+    private Timestamp createTime;
     
     // 修改时间
-    private Long updateTime;
+    private Timestamp updateTime;
     
     // 删除标志
     private boolean isDeleted;

@@ -12,10 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 彭淳
@@ -31,6 +34,7 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> mono, AuthorizationContext authorizationContext) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
 
         // 获取访问路径
         URI uri = authorizationContext.getExchange().getRequest().getURI();
@@ -44,7 +48,16 @@ public class JwtAccessManager implements ReactiveAuthorizationManager<Authorizat
         String resultFulPath = methodValue + SysConstant.METHOD_SUFFIX + uri.getPath();
 
         // 获取所有uri->角色关系
-        List<String> authorities = (List<String>) redisTemplate.opsForHash().get(SysConstant.OAUTH_URLS, resultFulPath);
+        Map<String,List<String>> entries = redisTemplate.opsForHash().entries(SysConstant.OAUTH_URLS);
+        List<String> authorities = new ArrayList<>();
+
+        entries.forEach((url, roles) -> {
+            if(antPathMatcher.match(url,resultFulPath)) {
+                authorities.addAll(roles);
+            }
+        });
+
+        //List<String> authorities = (List<String>) redisTemplate.opsForHash().get(SysConstant.OAUTH_URLS, resultFulPath);
 
         // 认证通过且角色匹配的用户可访问当前路径
         return mono

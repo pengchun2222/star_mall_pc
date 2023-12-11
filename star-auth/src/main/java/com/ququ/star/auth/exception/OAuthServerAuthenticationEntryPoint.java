@@ -1,7 +1,7 @@
 package com.ququ.star.auth.exception;
 
+import com.ququ.star.common.model.CommonResult;
 import com.ququ.star.common.model.ResultCode;
-import com.ququ.star.common.model.ResultMsg;
 import com.ququ.star.common.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
@@ -26,6 +26,6 @@ public class OAuthServerAuthenticationEntryPoint implements AuthenticationEntryP
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        ResponseUtils.result(response,new ResultMsg(ResultCode.CLIENT_AUTHENTICATION_FAILED.getCode(),ResultCode.CLIENT_AUTHENTICATION_FAILED.getMsg(),null));
+        ResponseUtils.result(response, CommonResult.failed(ResultCode.CLIENT_AUTHENTICATION_FAILED,ResultCode.CLIENT_AUTHENTICATION_FAILED.getMessage()));
     }
 }

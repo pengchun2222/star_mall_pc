@@ -1,8 +1,8 @@
 package com.ququ.star.gateway.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ququ.star.common.model.CommonResult;
 import com.ququ.star.common.model.ResultCode;
-import com.ququ.star.common.model.ResultMsg;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -33,7 +33,7 @@ public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
         if(response.isCommitted()) {
             return Mono.error(ex);
         }
-        ResultMsg resultMsg=new ResultMsg(ResultCode.UNAUTHORIZED.getCode(),ResultCode.UNAUTHORIZED.getMsg(),null);
+        CommonResult resultMsg=CommonResult.failed(ResultCode.UNAUTHORIZED);
 
         // JOSN格式返回
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
@@ -43,10 +43,10 @@ public class GlobalErrorExceptionHandler implements ErrorWebExceptionHandler {
 
         //处理TOKEN失效的异常
         if (ex instanceof InvalidTokenException){
-            resultMsg=new ResultMsg(ResultCode.INVALID_TOKEN.getCode(),ResultCode.INVALID_TOKEN.getMsg(),null);
+            resultMsg=CommonResult.failed(ResultCode.INVALID_TOKEN);
         }
 
-        ResultMsg finalResultMsg = resultMsg;
+        CommonResult finalResultMsg = resultMsg;
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
             try {

@@ -1,7 +1,7 @@
 package com.ququ.star.common.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ququ.star.common.model.ResultMsg;
+import com.ququ.star.common.model.CommonResult;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class ResponseUtils {
 
-    public static void result(HttpServletResponse response, ResultMsg msg) throws IOException {
+    public static void result(HttpServletResponse response, CommonResult msg) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         ServletOutputStream out = response.getOutputStream();
         ObjectMapper objectMapper = new ObjectMapper();

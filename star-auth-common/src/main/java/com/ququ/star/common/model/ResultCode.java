@@ -5,7 +5,7 @@ package com.ququ.star.common.model;
  * @Author: 彭淳
  * @Date: 2023/11/21 11:01
  */
-public enum ResultCode {
+public enum ResultCode implements IErrorCode{
 
     CLIENT_AUTHENTICATION_FAILED(1001,"客户端认证失败"),
 
@@ -14,26 +14,35 @@ public enum ResultCode {
     UNSUPPORTED_GRANT_TYPE(1003, "不支持的认证模式"),
 
     NO_PERMISSION(1005,"无权限访问！"),
-    UNAUTHORIZED(401, "系统错误"),
 
-    INVALID_TOKEN(1004,"无效的token");
+    INVALID_TOKEN(1004,"无效的token"),
+
+    SUCCESS(200, "操作成功"),
+    FAILED(500, "操作失败"),
+    INSUFFICIENT_STOCK(500, "库存不足"),
+    VALIDATE_FAILED(404, "参数检验失败"),
+    UNAUTHORIZED(401, "暂未登录或token已经过期"),
+    FORBIDDEN(403, "没有相关权限");
+
 
 
 
     private final int code;
 
-    private final String msg;
+    private final String message;
 
-    private ResultCode(int code,String msg){
+    private ResultCode(int code,String message){
         this.code=code;
-        this.msg=msg;
+        this.message=message;
     }
 
-    public int getCode() {
+    @Override
+    public Integer getCode() {
         return code;
     }
 
-    public String getMsg() {
-        return msg;
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

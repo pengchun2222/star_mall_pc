@@ -1,5 +1,6 @@
 package com.ququ.star.auth.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ququ.star.auth.entity.Permission;
@@ -41,7 +42,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
             List<PermissionRole> permissionRoleList = permissionRoleService.list(Wrappers.lambdaQuery(PermissionRole.class).eq(PermissionRole::getPermissionId, permission.getId()));
             // 查询角色
             Set<Long> roleIdSet = permissionRoleList.stream().map(PermissionRole::getRoleId).collect(Collectors.toSet());
-            List<Role> roleList = roleService.listByIds(roleIdSet);
+            List<Role> roleList = null;
+            if(CollUtil.isNotEmpty(roleIdSet)) {
+                roleList = roleService.listByIds(roleIdSet);
+            }
             // 数据构造
             PermissionRoleVo permissionRoleVo = PermissionRoleVo.builder()
                     .permissionId(permission.getId())

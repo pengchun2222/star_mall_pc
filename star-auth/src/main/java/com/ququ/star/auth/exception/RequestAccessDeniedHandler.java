@@ -1,7 +1,7 @@
 package com.ququ.star.auth.exception;
 
+import com.ququ.star.common.model.CommonResult;
 import com.ququ.star.common.model.ResultCode;
-import com.ququ.star.common.model.ResultMsg;
 import com.ququ.star.common.utils.ResponseUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -22,6 +22,6 @@ public class RequestAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {
-        ResponseUtils.result(response,new ResultMsg(ResultCode.NO_PERMISSION.getCode(),ResultCode.NO_PERMISSION.getMsg(),null));
+        ResponseUtils.result(response,CommonResult.failed(ResultCode.NO_PERMISSION,ResultCode.NO_PERMISSION.getMessage()));
     }
 }

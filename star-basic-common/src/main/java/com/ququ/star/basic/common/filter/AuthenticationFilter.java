@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 公众号：码猿技术专栏
@@ -40,23 +41,24 @@ public class AuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String requestURI = request.getRequestURI();
-        List<String> ignoreUrls = sysParameterConfig.getIgnoreUrls();
-        if(CollUtil.isNotEmpty(ignoreUrls)) {
-            if(sysParameterConfig.getIgnoreUrls().contains(requestURI)){
-                filterChain.doFilter(request,response);
-                return ;
+        List<String> ignoreUrls = sysParameterConfig.getIgnoreUrls().stream()
+                .map(ignoreUrl -> ignoreUrl.substring(ignoreUrl.indexOf("/", 2)))
+                .collect(Collectors.toList());
+        if (CollUtil.isNotEmpty(ignoreUrls)) {
+            if (ignoreUrls.contains(request.getRequestURI())) {
+                filterChain.doFilter(request, response);
+                return;
             }
         }
         //获取请求头中的加密的用户信息
         String token = request.getHeader(TokenConstant.TOKEN_NAME);
-        if (StrUtil.isNotBlank(token)){
+        if (StrUtil.isNotBlank(token)) {
             //解密
             String json = Base64.decodeStr(token);
             JSONObject jsonObject = JSON.parseObject(json);
             //获取用户身份信息、权限信息
             String principal = jsonObject.getString(TokenConstant.PRINCIPAL_NAME);
-            String userId=jsonObject.getString(TokenConstant.USER_ID);
+            String userId = jsonObject.getString(TokenConstant.USER_ID);
             String jti = jsonObject.getString(TokenConstant.JTI);
             Long expireIn = jsonObject.getLong(TokenConstant.EXPR);
             JSONArray tempJsonArray = jsonObject.getJSONArray(TokenConstant.AUTHORITIES_NAME);
@@ -70,9 +72,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             loginVal.setJti(jti);
             loginVal.setExpireIn(expireIn);
             //放入request的attribute中
-            request.setAttribute(RequestConstant.LOGIN_VAL_ATTRIBUTE,loginVal);
-            filterChain.doFilter(request,response);
-            return ;
+            request.setAttribute(RequestConstant.LOGIN_VAL_ATTRIBUTE, loginVal);
+            filterChain.doFilter(request, response);
+            return;
         }
         throw new RuntimeException("请从网关进入");
     }

@@ -14,6 +14,8 @@
         <module>star-auth-common</module>
         <module>star-order</module>
         <module>star-basic-common</module>
+        <module>star-product</module>
+        <module>star-basic-api-common</module>
     </modules>
 
     <properties>
@@ -25,9 +27,10 @@
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
         <hutool-all.version>5.8.0</hutool-all.version>
-        <druid-springboot.version>1.1.22</druid-springboot.version>
+        <druid-springboot.version>1.2.8</druid-springboot.version>
         <jjwt.version>0.9.0</jjwt.version>
-        <mybatis.plus.version>3.5.1</mybatis.plus.version>
+        <seata-springboot.vertion>2.0.0</seata-springboot.vertion>
+        <seata-springcloud.vertion>2022.0.0.0</seata-springcloud.vertion>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -74,6 +77,22 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata-springboot.vertion}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+                <version>${seata-springcloud.vertion}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.seata</groupId>
+                        <artifactId>seata-spring-boot-starter</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

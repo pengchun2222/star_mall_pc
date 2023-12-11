@@ -1,4 +1,9 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.ququ.star.basic.common.exception.BasicExceptionHandler,\
+  com.ququ.star.basic.common.exception.GlobalHandler,\
   com.ququ.star.basic.common.handler.SecurityHandlerInterceptor,\
-  com.ququ.star.basic.common.filter.AuthenticationFilter
+  com.ququ.star.basic.common.filter.AuthenticationFilter,\
+  com.ququ.star.basic.common.config.FeignRequestInterceptor,\
+  com.ququ.star.basic.common.config.MybatisPlusConfig,\
+  com.ququ.star.basic.common.config.MyMetaObjectHandler,\
+  com.ququ.star.basic.common.exception.UserErrorDecoder,\
+  com.ququ.star.basic.common.config.SeataFeignRequestInterceptor

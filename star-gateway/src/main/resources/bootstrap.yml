@@ -12,27 +12,21 @@ spring:
       discovery:
         namespace: da001164-4d22-4012-8edf-d6792a90e774
         server-addr: 192.168.133.140:8848
+        username: nacos
+        password: nacos
       config:
         namespace: da001164-4d22-4012-8edf-d6792a90e774
         file-extension: yml
         server-addr: 192.168.133.140:8848
         shared-configs: application.${spring.cloud.nacos.config.file-extension}
-    gateway:
-      ## 路由
-      routes:
-        ## id只要唯一即可，名称任意
-        - id: star-auth
-          uri: lb://star-auth
-          predicates:
-            ## Path Route Predicate Factory断言
-            - Path=/oauth/**
-        - id: star-order
-          uri: lb://star-order
-          predicates:
-            ## Path Route Predicate Factory断言
-            - Path=/order/**
+        username: nacos
+        password: nacos
 logging:
   level:
     org.springframework.security: DEBUG
-
-
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: is_delete
+      logic-delete-value: 1
+      logic-not-delete-value: 0

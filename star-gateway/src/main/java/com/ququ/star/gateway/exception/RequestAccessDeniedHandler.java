@@ -1,8 +1,8 @@
 package com.ququ.star.gateway.exception;
 
 import cn.hutool.json.JSONUtil;
+import com.ququ.star.common.model.CommonResult;
 import com.ququ.star.common.model.ResultCode;
-import com.ququ.star.common.model.ResultMsg;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class RequestAccessDeniedHandler implements ServerAccessDeniedHandler {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        String body = JSONUtil.toJsonStr(new ResultMsg(ResultCode.NO_PERMISSION.getCode(), ResultCode.NO_PERMISSION.getMsg(), null));
+        String body = JSONUtil.toJsonStr(CommonResult.failed(ResultCode.NO_PERMISSION));
         DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(Charset.forName("UTF-8")));
         return response.writeWith(Mono.just(buffer));
     }

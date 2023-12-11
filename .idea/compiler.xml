@@ -9,13 +9,18 @@
         <outputRelativeToContentRoot value="true" />
         <module name="star-auth" />
         <module name="star-gateway" />
+        <module name="star-product-api" />
+        <module name="star-order-api" />
+        <module name="star-basic-api-common" />
         <module name="star-auth-common" />
-        <module name="star-order" />
+        <module name="star-order-biz" />
+        <module name="star-product-biz" />
         <module name="star-basic-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="star_token" target="8" />
+      <module name="start-order-biz" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

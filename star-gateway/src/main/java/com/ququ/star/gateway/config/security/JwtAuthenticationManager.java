@@ -27,7 +27,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) {
-        return Mono.justOrEmpty(authentication)
+        Mono<Authentication> cast = Mono.justOrEmpty(authentication)
                 .filter(a -> a instanceof BearerTokenAuthenticationToken)
                 .cast(BearerTokenAuthenticationToken.class)
                 .map(BearerTokenAuthenticationToken::getToken)
@@ -46,5 +46,6 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
                         return Mono.just(oAuth2Authentication);
                     }
                 })).cast(Authentication.class);
+        return cast;
     }
 }

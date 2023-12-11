@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ququ.star.common.constent.SysConstant;
+import com.ququ.star.common.model.CommonResult;
 import com.ququ.star.common.model.ResultCode;
-import com.ququ.star.common.model.ResultMsg;
 import com.ququ.star.common.model.TokenConstant;
 import com.ququ.star.common.config.SysParameterConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -151,14 +151,11 @@ public class GlobalAuthenticationFilter implements GlobalFilter, Ordered {
      * 无效的token
      */
     private Mono<Void> invalidTokenMono(ServerWebExchange exchange) {
-        return buildReturnMono(ResultMsg.builder()
-                .code(ResultCode.INVALID_TOKEN.getCode())
-                .msg(ResultCode.INVALID_TOKEN.getMsg())
-                .build(), exchange);
+        return buildReturnMono(CommonResult.failed(ResultCode.INVALID_TOKEN),exchange);
     }
 
 
-    private Mono<Void> buildReturnMono(ResultMsg resultMsg, ServerWebExchange exchange) {
+    private Mono<Void> buildReturnMono(CommonResult resultMsg, ServerWebExchange exchange) {
         ServerHttpResponse response = exchange.getResponse();
         byte[] bits = JSON.toJSONString(resultMsg).getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = response.bufferFactory().wrap(bits);

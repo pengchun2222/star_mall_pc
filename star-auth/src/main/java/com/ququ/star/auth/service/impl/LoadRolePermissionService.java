@@ -29,6 +29,9 @@ public class LoadRolePermissionService {
      */
     @PostConstruct
     public void init() {
+
+        redisTemplate.delete(SysConstant.OAUTH_URLS);
+
         List<PermissionRoleVo> permissionRoleVos = permissionService.listRolePermission();
         permissionRoleVos.stream().forEach(permissionRoleVo -> {
             ArrayList<String> roleList = new ArrayList<>();

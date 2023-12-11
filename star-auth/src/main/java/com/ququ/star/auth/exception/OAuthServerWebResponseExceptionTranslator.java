@@ -1,7 +1,7 @@
 package com.ququ.star.auth.exception;
 
+import com.ququ.star.common.model.CommonResult;
 import com.ququ.star.common.model.ResultCode;
-import com.ququ.star.common.model.ResultMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ public class OAuthServerWebResponseExceptionTranslator implements WebResponseExc
      * 业务处理方法，重写这个方法返回客户端信息
      */
     @Override
-    public ResponseEntity<ResultMsg> translate(Exception e){
-        ResultMsg resultMsg = doTranslateHandler(e);
+    public ResponseEntity<CommonResult> translate(Exception e){
+        CommonResult resultMsg = doTranslateHandler(e);
         return new ResponseEntity<>(resultMsg, HttpStatus.UNAUTHORIZED);
     }
 
@@ -29,7 +29,7 @@ public class OAuthServerWebResponseExceptionTranslator implements WebResponseExc
      * 根据异常定制返回信息
      * TODO 自己根据业务封装
      */
-    private ResultMsg doTranslateHandler(Exception e) {
+    private CommonResult doTranslateHandler(Exception e) {
         log.error("error:{}",e);
         //初始值，系统错误，
         ResultCode resultCode = ResultCode.UNAUTHORIZED;
@@ -40,6 +40,6 @@ public class OAuthServerWebResponseExceptionTranslator implements WebResponseExc
         }else if(e instanceof InvalidGrantException){
             resultCode = ResultCode.USERNAME_OR_PASSWORD_ERROR;
         }
-        return new ResultMsg(resultCode.getCode(),resultCode.getMsg(),null);
+        return CommonResult.failed(resultCode,resultCode.getMessage());
     }
 }
